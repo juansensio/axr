@@ -12,7 +12,7 @@ Aprendizaje por Refuerzo
   - [Métodos Monte Carlo](./04_mcm.ipynb)
   - [Aprendizaje temporal diferencial](./05_tdl.ipynb)
   - [Bootstrapping](./06_msbm.ipynb)
-  - [Planificación y aprendizaje con métodos tabulares](./07_tab)
+  - [Planificación y aprendizaje con métodos tabulares](./07_tab.ipynb)
 
 ## Recursos
 
