@@ -29,3 +29,7 @@ Aprendizaje por Refuerzo
 ### Podcasts
 
 - https://www.youtube.com/watch?v=uPUEq8d73JI
+
+### Blogs
+
+- https://deepmind.com/blog
