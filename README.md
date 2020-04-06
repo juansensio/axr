@@ -18,7 +18,8 @@ Aprendizaje por Refuerzo
 
 ### Libros
 
-- Reinforcement Learning, An Introduction (second edition). Richard S. Sutton and Andrew G. Barto.
+- Reinforcement Learning, An Introduction (second edition) by Richard S. Sutton and Andrew G. Barto.
+- Algorithms for Reinforcement Learning by Csaba Szepesvári.
 - Hands-On Machine Learning with Scikit-Learn, Keras, and Tensorflow, 2nd Edition, by Aurélien Géron (O'Reilly). Copyright 2019 Kiwisoft S.A.S., 978-1-492-03264-9.
 
 ### Youtube
