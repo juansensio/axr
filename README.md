@@ -25,6 +25,7 @@ Aprendizaje por Refuerzo
 
 - https://www.youtube.com/watch?list=PLqYmG7hTraZDM-OYHWgPebj2MfCFzFObQ&amp=&v=2pWv7GOvuf0
 - https://www.youtube.com/playlist?list=PLoROMvodv4rOSOPzutgyCTapiGlY2Nd8u
+- https://www.youtube.com/playlist?list=PLoROMvodv4rMC6zfYmnD7UG3LVvwaITY5
 
 ### Podcasts
 
