@@ -31,6 +31,7 @@ Aprendizaje por Refuerzo
 ### Podcasts
 
 - https://www.youtube.com/watch?v=uPUEq8d73JI
+- https://www.youtube.com/watch?v=l-mYLq6eZPY
 
 ### Blogs
 
