@@ -1,18 +1,18 @@
-import os, sys
+import os
+import sys
 from chimp import Chimp, Fist
 import pygame
 from pygame.locals import *
 from utils import *
 
-if not pygame.font: print('Warning, fonts disabled')
-if not pygame.mixer: print('Warning, sound disabled')
+if not pygame.font:
+    print('Warning, fonts disabled')
+if not pygame.mixer:
+    print('Warning, sound disabled')
 
-#pygame.mixer.pre_init(frequency=44100, size=-16, channels=2, buffer=512, devicename=None, allowedchanges=AUDIO_ALLOW_FREQUENCY_CHANGE | AUDIO_ALLOW_CHANNELS_CHANGE)
-#pygame.mixer.pre_init()
 pygame.init()
-#pygame.mixer.init()
 
-screen = pygame.display.set_mode((468, 60)) 
+screen = pygame.display.set_mode((468, 60))
 pygame.display.set_caption('Monkey Fever')
 pygame.mouse.set_visible(0)
 
