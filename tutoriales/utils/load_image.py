@@ -9,7 +9,7 @@ def load_image(fullname, trans=None, colorkey=None):
     except pygame.error as message:
         print('Cannot load image:', fullname)
         raise SystemExit(message)
-    if trans:
+    if trans is not None:
         for trans, params in trans.items():
             image = getattr(pygame.transform, trans)(image, *params)
     image = image.convert()

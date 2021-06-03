@@ -1,11 +1,13 @@
 import pygame
 from utils import load_image
 
+
 class Fist(pygame.sprite.Sprite):
     """moves a clenched fist on the screen, following the mouse"""
+
     def __init__(self, fullname):
         pygame.sprite.Sprite.__init__(self)  # call Sprite initializer
-        self.image, self.rect = load_image(fullname, -1)
+        self.image, self.rect = load_image(fullname, None, -1)
         self.punching = 0
 
     def update(self):

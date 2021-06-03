@@ -1,12 +1,14 @@
-import pygame 
+import pygame
 from utils import load_image
+
 
 class Chimp(pygame.sprite.Sprite):
     """moves a monkey critter across the screen. it can spin the
        monkey when it is punched."""
+
     def __init__(self, fullname):
         pygame.sprite.Sprite.__init__(self)  # call Sprite intializer
-        self.image, self.rect = load_image(fullname, -1)
+        self.image, self.rect = load_image(fullname, None, -1)
         screen = pygame.display.get_surface()
         self.area = screen.get_rect()
         self.rect.topleft = 10, 10
