@@ -33,11 +33,13 @@ class StartMenu(SceneBase):
             if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
                 return True, None
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+                self.next.start()
                 return False, self.next
             elif event.type == MOUSEBUTTONDOWN:
                 # Now it will have the coordinates of click point.
                 mouse_pos = event.pos
                 if self.rect.collidepoint(mouse_pos):
+                    self.next.start()
                     return False, self.next
                 if self.credits_rect.collidepoint(mouse_pos):
                     return False, self.credits

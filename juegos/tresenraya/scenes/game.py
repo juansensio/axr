@@ -8,6 +8,7 @@ from tresenraya.objects import Board, Player
 class GameScene(SceneBase):
     def __init__(self):
         SceneBase.__init__(self)
+        self.game_over = False
 
         # background
         screen = pygame.display.get_surface()
@@ -34,6 +35,10 @@ class GameScene(SceneBase):
         player2 = Player('O')
         self.board = Board(player1, player2)
 
+    def start(self):
+        self.game_over = False
+        self.board.start()
+
     def process_input(self):
         for event in pygame.event.get():
             if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
@@ -44,7 +49,7 @@ class GameScene(SceneBase):
                 self.background = self.initial_background.copy()
                 return False, self.next
             # click en la cuadrícula
-            elif event.type == pygame.MOUSEBUTTONDOWN:
+            elif event.type == pygame.MOUSEBUTTONDOWN and not self.game_over:
                 # coordenadas del click
                 x = int(event.pos[0] // (self.size[0] / 3))
                 y = int(event.pos[1] // (self.size[1] / 3))
@@ -52,7 +57,7 @@ class GameScene(SceneBase):
                 if self.board.update(y, x):
                     x = (x*2 + 1)*(self.size[0]/6)
                     y = (y*2 + 1)*(self.size[1]/6)
-                    if self.board.current_player.marker == 'X':
+                    if self.board.current_player.marker == 'O':
                         width, height = 50, 50
                         rect = pygame.Rect(
                             x - width / 2, y - height / 2, width, height)
@@ -70,11 +75,16 @@ class GameScene(SceneBase):
                         self.background.blit(s, (0, 0))
                         # texto
                         font = pygame.font.Font(None, 56)
-                        text = font.render("Game Over", 1, (255, 0, 255))
+                        if self.board.current_player.marker == 'O':
+                            text = font.render("You Win !", 1, (255, 0, 255))
+                        else:
+                            text = font.render(
+                                "Game Over :(", 1, (255, 0, 255))
                         textpos = text.get_rect(
                             centerx=self.background.get_width()/2,
                             centery=self.background.get_height()/2)
                         self.background.blit(text, textpos)
+                        self.game_over = True
         return False, self
 
     def update(self):

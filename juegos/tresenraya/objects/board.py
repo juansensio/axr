@@ -13,6 +13,9 @@ class Board():
         self.current_player = self.player1
         self.state = copy.deepcopy(self.initial_state)
 
+    def start(self):
+        self.current_player = self.player1
+
     def update(self, y, x):
         # check valid
         if self.state[y][x] != 0:
@@ -22,12 +25,17 @@ class Board():
         return True
 
     def is_game_over(self):
-        count = 0
-        for i in range(3):
-            for j in range(3):
-                if self.state[i][j] == 0:
-                    count += 1
-        return count == 0
+        for fila in self.state:
+            if fila[0] != 0 and fila[0] == fila[1] and fila[1] == fila[2]:
+                return True
+        for c in range(3):
+            if self.state[0][c] != 0 and self.state[0][c] == self.state[1][c] and self.state[1][c] == self.state[2][c]:
+                return True
+        if self.state[0][0] != 0 and self.state[0][0] == self.state[1][1] and self.state[1][1] == self.state[2][2]:
+            return True
+        if self.state[0][2] != 0 and self.state[0][2] == self.state[1][1] and self.state[1][1] == self.state[2][0]:
+            return True
+        return False
 
     def reset(self):
         self.state = copy.deepcopy(self.initial_state)
