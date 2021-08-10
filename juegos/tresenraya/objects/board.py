@@ -1,41 +1,38 @@
-import copy
-
+import numpy as np
 
 class Board():
-    def __init__(self, player1, player2):
-        self.initial_state = [
-            [0, 0, 0],
-            [0, 0, 0],
-            [0, 0, 0]
-        ]
-        self.player1 = player1
-        self.player2 = player2
-        self.current_player = self.player1
-        self.state = copy.deepcopy(self.initial_state)
+    def __init__(self):
+        self.state = np.zeros((3,3))
 
-    def start(self):
-        self.current_player = self.player1
+    def valid_moves(self):
+        return [(i, j) for j in range(3) for i in range(3) if self.state[i, j] == 0]
 
-    def update(self, y, x):
-        # check valid
-        if self.state[y][x] != 0:
-            return False
-        self.state[y][x] = self.current_player.marker
-        self.current_player = self.player1 if self.current_player is self.player2 else self.player2
-        return True
+    def update(self, symbol, row, col):
+        if self.state[row, col] == 0:
+            self.state[row, col] = symbol
+        else:
+            raise ValueError ("movimiento ilegal !")
 
     def is_game_over(self):
-        for fila in self.state:
-            if fila[0] != 0 and fila[0] == fila[1] and fila[1] == fila[2]:
-                return True
-        for c in range(3):
-            if self.state[0][c] != 0 and self.state[0][c] == self.state[1][c] and self.state[1][c] == self.state[2][c]:
-                return True
-        if self.state[0][0] != 0 and self.state[0][0] == self.state[1][1] and self.state[1][1] == self.state[2][2]:
-            return True
-        if self.state[0][2] != 0 and self.state[0][2] == self.state[1][1] and self.state[1][1] == self.state[2][0]:
-            return True
-        return False
+        # comprobar filas y columnas
+        if (self.state.sum(axis=0) == 3).sum() >= 1 or (self.state.sum(axis=1) == 3).sum() >= 1:
+            return 1
+        if (self.state.sum(axis=0) == -3).sum() >= 1 or (self.state.sum(axis=1) == -3).sum() >= 1:
+            return -1 
+        # comprobar diagonales
+        diag_sums = [
+            sum([self.state[i, i] for i in range(3)]),
+            sum([self.state[i, 3 - i - 1] for i in range(3)]),
+        ]
+        if diag_sums[0] == 3 or diag_sums[1] == 3:
+            return 1
+        if diag_sums[0] == -3 or diag_sums[1] == -3:
+            return -1        
+        # empate
+        if len(self.valid_moves()) == 0:
+            return 0
+        # seguir jugando
+        return None
 
     def reset(self):
-        self.state = copy.deepcopy(self.initial_state)
+        self.state = np.zeros((3,3))

@@ -1,9 +1,5 @@
 try:
     import sys
-    import random
-    import math
-    import os
-    import getopt
     import pygame
     from socket import *
     from pygame.locals import *
@@ -20,9 +16,8 @@ if not pygame.mixer:
 
 SOUND = False
 
-
 def main():
-    # Initialise screen
+    # Init screen
     pygame.init()
     screen = pygame.display.set_mode((500, 500))
     pygame.display.set_caption('Tres en Raya')
