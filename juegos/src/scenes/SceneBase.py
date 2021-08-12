@@ -1,12 +1,31 @@
+import pygame
+from pygame.locals import *
+
 class SceneBase:
     def __init__(self):
-        self.next = self
+        
+        # fondo negro del mismo tamaño que la pantalla
+        screen = pygame.display.get_surface()
+        background = pygame.Surface(screen.get_size())
+        background = background.convert()
+        background.fill((0, 0, 0))
+        self.background = background
 
-    def process_input(self, events):
-        print("uh-oh, you didn't override this in the child class")
+    def start(self):
+        pass
 
+    def stop(self):
+        pass
+
+    def process_input(self, scene_manager):
+        for event in pygame.event.get():
+            if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
+                return True
+        return False
+        
     def update(self):
-        print("uh-oh, you didn't override this in the child class")
+        pass
 
     def render(self, screen):
-        print("uh-oh, you didn't override this in the child class")
+        screen.blit(self.background, (0, 0))
+        pygame.display.flip()

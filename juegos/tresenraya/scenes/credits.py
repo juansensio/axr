@@ -1,41 +1,30 @@
+from .scenes import Scenes 
 from src.scenes import SceneBase
-from src.utils import load_image
 import pygame
 from pygame.locals import *
 
 
 class Credits(SceneBase):
     def __init__(self):
-        SceneBase.__init__(self)
-
-        screen = pygame.display.get_surface()
-        background = pygame.Surface(screen.get_size())
-        background = background.convert()
-        background.fill((0, 0, 0))
+        super().__init__()
 
         if pygame.font:
             font = pygame.font.Font(None, 36)
             text = font.render(
-                "Tres en raya \n by Juan Sensio", 1, (255, 255, 255))
+                "Tres en raya \n by Janus Noise", 1, (255, 255, 255))
             textpos = text.get_rect(
-                centerx=background.get_width()/2,
-                centery=background.get_height()/2
+                centerx=self.background.get_width()/2,
+                centery=self.background.get_height()/2
             )
-            background.blit(text, textpos)
+            self.background.blit(text, textpos)
 
-        self.background = background
 
-    def process_input(self):
+    def process_input(self, scene_manager):
         for event in pygame.event.get():
             if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
-                return True, None
+                return True
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
-                return False, self.next
-        return False, self
+                scene_manager.update(Scenes.MENU)
+                return False
+        return False
 
-    def update(self):
-        pass
-
-    def render(self, screen):
-        screen.blit(self.background, (0, 0))
-        pygame.display.flip()

@@ -11,7 +11,7 @@ class Board():
         if self.state[row, col] == 0:
             self.state[row, col] = symbol
         else:
-            raise ValueError ("movimiento ilegal !")
+            raise ValueError("movimiento invalido !")
 
     def is_game_over(self):
         # comprobar filas y columnas
