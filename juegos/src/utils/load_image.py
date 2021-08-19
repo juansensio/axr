@@ -12,7 +12,7 @@ def load_image(fullname, trans=None, colorkey=None):
     if trans is not None:
         for trans, params in trans.items():
             image = getattr(pygame.transform, trans)(image, *params)
-    image = image.convert()
+    image = image.convert_alpha()
     if colorkey is not None:
         if colorkey == -1:
             colorkey = image.get_at((0, 0))
