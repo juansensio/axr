@@ -1,5 +1,6 @@
 import math
 import numpy as np
+import pygame
 
 
 class Agent():
@@ -9,10 +10,17 @@ class Agent():
 
     def start(self):
         self.acciones = {k: 0 for k in range(5)}
+        self.last_click = pygame.time.get_ticks()
+
+    def click(self, t):
+        ms = pygame.time.get_ticks() - self.last_click
+        if ms > self.ms_per_click:
+            self.last_click = pygame.time.get_ticks()
+            return self.get_action(t)
+        return None
 
     def get_action(self, t):
-        action = 0
-        return action
+        return None
 
     def update(self, a):
         self.acciones[a] += 1

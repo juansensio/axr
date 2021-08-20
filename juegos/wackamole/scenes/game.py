@@ -1,12 +1,13 @@
-from pygame.display import update
 from .scenes import Scenes
 from src.scenes import SceneBase
 import pygame
 from pygame.locals import *
-from ..objects import Topo
 import numpy as np
+from ..objects import Topo
 from ..objects.players import Players
 from ..objects.agents import AgentEGreedy, AgentGradientAscent, AgentUCB
+from ..objects.score import Score
+from ..objects.timer import Timer
 
 
 class GameScene(SceneBase):
@@ -33,15 +34,18 @@ class GameScene(SceneBase):
             (490, 190),
             (670, 140),
         ]
+        # inicializar puntos
         np.random.seed(seed)
         mu, sigma = 0, 1
-        self.q = {k: v for k, v in enumerate(np.random.normal(mu, sigma, 5))}
-        self.topos = [Topo(p, sound) for p in positions]
+        q = np.random.normal(mu, sigma, 5)
+        # topos
+        self.topos = [Topo(p, sound, reward)
+                      for p, reward in zip(positions, q)]
         self.t_game = t_game
         self.player = player
         self.agent = None
         self.verbose = verbose
-        self.t = 1
+        # instanciar agente axr
         if self.player == Players.AGENT_E_GREEDY:
             self.agent = AgentEGreedy(
                 ms_per_click, epsilon, alpha, q0, verbose)
@@ -52,14 +56,13 @@ class GameScene(SceneBase):
 
     def start(self):
         self.game_over = False
-        self.score = 0
-        self.time = self.t_game
-        self.start_ticks = pygame.time.get_ticks()
+        self.score = Score()
+        self.timer = Timer(self.t_game)
         for topo in self.topos:
             topo.start()
         if self.agent:
             self.agent.start()
-            self.agent_last_click = pygame.time.get_ticks()
+        self.t = 1
 
     def process_input(self, scene_manager):
         for event in pygame.event.get():
@@ -74,65 +77,31 @@ class GameScene(SceneBase):
                 mouse_pos = event.pos
                 for ix, topo in enumerate(self.topos):
                     if topo.rect.collidepoint(mouse_pos):
-                        topo.click()
-                        self.update_score(self.q[ix])
+                        reward = topo.click()
+                        self.score.update(reward)
                         return False
         return False
 
     def update(self):
         if not self.game_over:
-            self.update_timer()
+            self.game_over = self.timer.update()
             if self.agent:
-                ms = (pygame.time.get_ticks() - self.agent_last_click)
-                if ms > self.agent.ms_per_click:
-                    self.agent_last_click = pygame.time.get_ticks()
-                    a = self.agent.get_action(self.t)
+                a = self.agent.click(self.t)
+                if a is not None:
                     self.t += 1
-                    self.topos[a].click()
-                    reward = self.q[a]
+                    reward = self.topos[a].click()
                     if self.verbose:
                         print("turno", self.t)
-                        print("q", self.q)
+                        print("q", [topo.reward for topo in self.topos])
                     self.agent.update(a, reward)
-                    self.update_score(reward)
+                    self.score.update(reward)
         for topo in self.topos:
             topo.update()
 
-    def update_score(self, score):
-        self.score += score
-
-    def update_timer(self):
-        seconds = (pygame.time.get_ticks() - self.start_ticks)/1000
-        if seconds > 1:
-            self.time -= 1
-            self.start_ticks = pygame.time.get_ticks()
-            if self.time <= 0:
-                self.game_over = True
-
     def render(self, screen):
-        # render bg
         screen.blit(self.background, (0, 0))
-        # render topos
+        self.score.render(screen)
+        self.timer.render(screen)
         for topo in self.topos:
-            screen.blit(topo.sprite, topo.rect)
-        # render score
-        if pygame.font:
-            font = pygame.font.Font(None, 36)
-            text = font.render(
-                f"Score: {self.score:.3f}", 1, (255, 255, 255))
-            textpos = text.get_rect(
-                centerx=700,
-                centery=380
-            )
-            screen.blit(text, textpos)
-            # render timer
-            font = pygame.font.Font(None, 36)
-            text = font.render(
-                f"Time: {self.time}", 1, (255, 255, 255))
-            textpos = text.get_rect(
-                centerx=60,
-                centery=20
-            )
-            screen.blit(text, textpos)
-        # render
+            topo.render(screen)
         pygame.display.flip()
