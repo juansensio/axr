@@ -6,11 +6,13 @@ En este repositorio encontrarás [videojuegos](./juegos) desarrollados con [PyGa
 
 - [Tutoriales](./tutoriales) de Pygame.
 - [Tres en Raya](./juegos/tres_en_raya.py)
+- [Wack-A-Mole](./juegos/wack_a_mole.py)
 
 ## AxR
 
 - [Introducción](./axr/00_intro.ipynb) al Aprendizaje por Refuerzo.
 - [Exploración vs Explotación](./axr/01_bandits.ipynb)
+- [Procesos de decisión de Markov](./axr/02_mdp.ipynb)
 
 ## Recursos
 
