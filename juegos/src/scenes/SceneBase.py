@@ -31,7 +31,7 @@ class SceneBase:
                 return True
         return False
 
-    def update(self):
+    def update(self, scene_manager):
         pass
 
     def render(self, screen):
