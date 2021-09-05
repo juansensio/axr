@@ -12,7 +12,8 @@ class SceneManager():
         # escenas
         scenes = {}
         scenes[Scenes.MENU] = StartMenu()
-        scenes[Scenes.GAME] = GameScene(args.a, args.its, args.l, args.v)
+        scenes[Scenes.GAME] = GameScene(
+            args.a, args.its, args.l, args.v, args.p)
         scenes[Scenes.CREDITS] = Credits()
         self.scenes = scenes
         self.current_scene = scenes[Scenes(args.e)]

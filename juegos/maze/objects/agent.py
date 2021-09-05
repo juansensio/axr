@@ -31,25 +31,34 @@ class Agent:
         for i in range(maze.size[0]):
             for j in range(maze.size[1]):
                 s = i*maze.size[1] + j
-                if i == 0:
+
+                t = s-maze.size[1]
+                r = s+1
+                b = s+maze.size[1]
+                l = s-1
+
+                if i == 0 or t in maze.block_states:
                     probas_trans[s, 0, s] = 1
                 else:
-                    probas_trans[s, 0, s-maze.size[1]] = 1
-                if i == maze.size[0] - 1:
+                    probas_trans[s, 0, t] = 1
+
+                if i == maze.size[0] - 1 or b in maze.block_states:
                     probas_trans[s, 2, s] = 1
                 else:
-                    probas_trans[s, 2, s+maze.size[1]] = 1
-                if j == 0:
+                    probas_trans[s, 2, b] = 1
+
+                if j == 0 or l in maze.block_states:
                     probas_trans[s, 3, s] = 1
                 else:
-                    probas_trans[s, 3, s-1] = 1
-                if j == maze.size[1] - 1:
+                    probas_trans[s, 3, l] = 1
+
+                if j == maze.size[1] - 1 or r in maze.block_states:
                     probas_trans[s, 1, s] = 1
                 else:
-                    probas_trans[s, 1, s+1] = 1
+                    probas_trans[s, 1, r] = 1
         # estados terminales
         for terminal_state in maze.terminal_states:
-            probas_trans[terminal_state, :, :] = 0
+            probas_trans[terminal_state[0], :, :] = 0
         return num_states, probas_trans
 
     def get_rewards(self, maze):
@@ -57,7 +66,7 @@ class Agent:
         recompensas = -1*np.ones((num_states, 4, num_states))  # todas a -1
         # estados terminales
         for terminal_state in maze.terminal_states:
-            recompensas[terminal_state, :, :] = 0
+            recompensas[terminal_state[0], :, :] = 0
         return recompensas
 
     def get_ini_policy(self, num_states):
@@ -105,30 +114,30 @@ class Agent:
 
     def start(self):
         self.rect.topleft = self.init_pos
-        self.pos = self._init_pos
+        self.pos = [*self._init_pos]  # copy
 
     def update(self, maze):
-        state = self.pos[0]*maze.size[1] + self.pos[1]
+        state = self.pos[1]*maze.size[1] + self.pos[0]
         a = np.random.choice(np.arange(4), 1, p=self.pi[state])
         if a == 0:
             newpos = self.rect.move((0, -self.step[1]))
             if self.valid_move(maze, newpos):
-                self.pos[0] -= 1
+                self.pos[1] -= 1
                 self.rect = newpos
         elif a == 1:
             newpos = self.rect.move((self.step[0], 0))
             if self.valid_move(maze, newpos):
-                self.pos[1] += 1
+                self.pos[0] += 1
                 self.rect = newpos
         elif a == 2:
             newpos = self.rect.move((0, self.step[1]))
             if self.valid_move(maze, newpos):
-                self.pos[0] += 1
+                self.pos[1] += 1
                 self.rect = newpos
         elif a == 3:
             newpos = self.rect.move((-self.step[0], 0))
             if self.valid_move(maze, newpos):
-                self.pos[1] -= 1
+                self.pos[0] -= 1
                 self.rect = newpos
         else:
             raise ValueError('invalid move')

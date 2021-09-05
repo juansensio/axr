@@ -43,5 +43,7 @@ if __name__ == '__main__':
     parser.add_argument('-its', type=int, default=20, help="value iterations")
     parser.add_argument(
         '-l', type=str, default='level0.csv', help="level file")
+    parser.add_argument(
+        '-p', type=int, nargs='+', default=(3, 3), help="initial position")
     args = parser.parse_args()
     main(args)

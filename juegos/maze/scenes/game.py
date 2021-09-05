@@ -10,15 +10,15 @@ from .controls import Controls
 
 
 class GameScene(SceneBase):
-    def __init__(self, agent=False, its=0, level='level0.csv', verbose=False):
+    def __init__(self, agent=False, its=0, level='level0.csv', verbose=False, pos=(3, 3)):
         super().__init__()
         self.maze = Maze(f'./maze/levels/{level}')
         self.agent = False
         if agent:
             self.agent = True
-            self.player = Agent(self.maze, its, pos=(3, 3), verbose=verbose)
+            self.player = Agent(self.maze, its, pos=pos, verbose=verbose)
         else:
-            self.player = Player(pos=(3, 3))
+            self.player = Player(pos=pos)
 
     def start(self):
         self.player.start()

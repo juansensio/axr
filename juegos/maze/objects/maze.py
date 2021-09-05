@@ -24,7 +24,7 @@ class Maze:
         # check everything is ok
         assert np.all(np.unique(level.values) == list(
             symbol2sprite.keys())), 'invalid symbol'
-        assert (level.values == '2').sum() == 1, 'solo 1 casa'
+        # assert (level.values == '2').sum() == 1, 'solo 1 casa'
 
         # load sprites
         self.sprites = {
@@ -37,7 +37,7 @@ class Maze:
         screen = pygame.display.get_surface()
         background = pygame.Surface(screen.get_size())
         background = background.convert()
-        self.blocks = []
+        self.blocks, self.block_states = [], []
         self.terminal_states = []
         for i in range(size[0]):
             for j in range(size[1]):
@@ -46,11 +46,11 @@ class Maze:
                 rect.topleft = (step[0]*j, step[1]*i)
                 if ix in ['#']:
                     self.blocks.append(rect.copy())
+                    self.block_states.append(i*size[1]+j)
                 if ix in ['2']:
-                    self.terminal_states.append(i*size[1]+j)
+                    self.terminal_states.append((i*size[1]+j, rect.copy()))
                 background.blit(sprite, rect)
                 self.background = background
-
         self.size = size
 
     def block(self, pos):
@@ -59,7 +59,9 @@ class Maze:
                 return True
 
     def update(self, player):
-        return self.sprites['2'][1].contains(player.rect)
+        for terminal_state in self.terminal_states:
+            if terminal_state[1].contains(player.rect):
+                return True
 
     def render(self, screen):
         screen.blit(self.background, (0, 0))
