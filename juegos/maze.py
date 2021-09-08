@@ -16,8 +16,8 @@ if not pygame.mixer:
 
 def main(args):
     pygame.init()
-    # tiles de 16x16 (a x2, 32x32, 20x20 tiles)
-    screen = pygame.display.set_mode((640, 640))
+    # tiles de 16x16 (a x2, 32x32, 15x15 tiles)
+    screen = pygame.display.set_mode((480, 480))
     pygame.display.set_caption('Maze')
     clock = pygame.time.Clock()
     scene_manager = SceneManager(args)
@@ -44,6 +44,6 @@ if __name__ == '__main__':
     parser.add_argument(
         '-l', type=str, default='level0.csv', help="level file")
     parser.add_argument(
-        '-p', type=int, nargs='+', default=(3, 3), help="initial position")
+        '-p', type=int, nargs='+', default=(7, 7), help="initial position")
     args = parser.parse_args()
     main(args)
