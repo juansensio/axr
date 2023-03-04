@@ -13,6 +13,8 @@ En este repositorio encontrarás [videojuegos](./juegos) desarrollados con [PyGa
 - [Introducción](./axr/00_intro.ipynb) al Aprendizaje por Refuerzo.
 - [Exploración vs Explotación](./axr/01_bandits.ipynb)
 - [Procesos de decisión de Markov](./axr/02_mdp.ipynb)
+- [Programación Dinámica](./axr/03_dp.ipynb)
+- [Métodos Monte Carlo](./axr/04_mcm.ipynb)
 
 ## Recursos
 
